@@ -1,6 +1,7 @@
 package Classes.Controller;
 
 import com.badlogic.gdx.InputAdapter;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
@@ -9,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 
 
-public class ButtonListener extends InputListener {
+public class ButtonListener implements InputProcessor {
 
     public Button but;
 
@@ -17,28 +18,64 @@ public class ButtonListener extends InputListener {
         but=b;
     }
 
-    @Override
-    public boolean touchDown (InputEvent event, float x, float y, int pointer, int button) {
+    public Button getBut() {
+        return but;
+    }
 
-        if(but.getSprite().getBoundingRectangle().contains(x,y)) {
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        if(but.getSprite().getBoundingRectangle().contains(screenX,screenY)) {
 
             if(but.isLeft()){
                 Controls.leftPressed=true;
             }else{
                 Controls.rightPressed=true;
             }
-            but.getSprite().setAlpha(1);
+            but.getSprite().setAlpha(0.30f);
         }
-        return true;
+        return false;
     }
 
     @Override
-    public void touchUp (InputEvent event, float x, float y, int pointer, int button) {
-        if(but.isLeft()){
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+        if(but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX,screenY)){
             Controls.leftPressed=false;
-        }else{
+            but.getSprite().setAlpha(0.1f);
+        }else if(!but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX,screenY)){
             Controls.rightPressed=false;
+            but.getSprite().setAlpha(0.1f);
         }
-        but.getSprite().setAlpha(0.3f);
+
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(int amount) {
+        return false;
     }
 }
