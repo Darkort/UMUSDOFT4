@@ -30,16 +30,20 @@ public class Asteroid extends Actor {
         createSprite();
 
         this.world= w;
-        this.setOrigin(this.getWidth()/2, this.getHeight()/2);
 
         bd= new BodyDef();
-        bd.type = BodyDef.BodyType.KinematicBody;
-        bd.position.set(getX(),getY());
-        body= world.createBody(bd);
-        body.setTransform(getX(),getY(),0);
+        bd.type = BodyDef.BodyType.DynamicBody;
 
+        bd.position.set(this.getWidth(),this.getHeight());
+        body= world.createBody(bd);
+
+        body.setFixedRotation(true);
         body.setLinearVelocity(direction);
-        body.setAngularVelocity(new Random().nextInt(150));
+        body.setAngularVelocity(new Random().nextInt(120));
+
+        if(new Random().nextInt(2)==0){
+            body.setAngularVelocity(-body.getAngularVelocity());
+        }
 
         FixtureDef fd = new FixtureDef();
         CircleShape cs= new CircleShape();
@@ -63,16 +67,19 @@ public class Asteroid extends Actor {
         this.sprite= sprites.get(rd.nextInt(sprites.size()));
 
         this.diameter=(rd.nextInt(150-50)+50);
+
         sprite.setBounds(this.getX(),this.getY(),diameter,diameter);
-        sprite.setOrigin(this.getWidth()/2,this.getHeight()/2);
         sprites.clear();
     }
 
     public void draw(Batch batch, float parentAlpha){
-        sprite.setRotation(body.getAngle());
-        sprite.setPosition(body.getPosition().x,body.getPosition().y);
         this.setPosition(body.getPosition().x,body.getPosition().y);
         this.setRotation(body.getAngle());
+
+        sprite.setOriginCenter();
+
+        sprite.setRotation(this.getRotation());
+        sprite.setPosition(body.getPosition().x-diameter/2,body.getPosition().y-diameter/2);
         sprite.draw(batch);
     }
 

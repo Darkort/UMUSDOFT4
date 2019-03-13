@@ -41,9 +41,9 @@ public class Controls {
         if(rightPressed && leftPressed){
             player.getBody().applyForceToCenter( new Vector2(x*50,y*50), true);
         }else if(rightPressed){
-            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()-4);
+            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()-(float)( 2*(Math.PI/180)));
         }else if(leftPressed){
-            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()+4);
+            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()+(float)( 2*(Math.PI/180)));
         }
 
     }

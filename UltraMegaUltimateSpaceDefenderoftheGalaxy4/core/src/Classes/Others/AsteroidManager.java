@@ -12,7 +12,7 @@ import Classes.Actors.Asteroid;
 
 public class AsteroidManager {
     public ArrayList<Asteroid> asteroids= new ArrayList<Asteroid>();
-    public int generationRate=600;
+    public int generationRate=400;
     public Vector2 direction;
     public World w;
     public Stage s;
@@ -31,8 +31,6 @@ public class AsteroidManager {
 
 
         if(rd.nextInt(generationRate)==1){
-            //int posX= ;
-           // int posY= ;
 
             asteroids.add(new Asteroid(50,20,direction,w));
             s.addActor(asteroids.get(asteroids.size()-1));
