@@ -35,15 +35,13 @@ public class Controls {
 
     public void act(){
 
-        float x = MathUtils.cos(player.getBody().getAngle()*(float)(Math.PI/180));
-        float y = MathUtils.sin(player.getBody().getAngle()*(float)(Math.PI/180));
 
         if(rightPressed && leftPressed){
-            player.getBody().applyForceToCenter( new Vector2(x*50,y*50), true);
+            player.impulsate(150);
         }else if(rightPressed){
-            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()-(float)( 2*(Math.PI/180)));
+            player.rotate(3);
         }else if(leftPressed){
-            player.getBody().setTransform(player.getBody().getPosition(),player.getBody().getAngle()+(float)( 2*(Math.PI/180)));
+            player.rotate(-3);
         }
 
     }

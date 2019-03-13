@@ -1,8 +1,10 @@
 package Classes.Actors;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Asteroid extends Actor {
+
     private static ArrayList<Sprite> sprites= new ArrayList<Sprite>();
     private Sprite sprite;
     World world;
@@ -34,12 +37,12 @@ public class Asteroid extends Actor {
         bd= new BodyDef();
         bd.type = BodyDef.BodyType.DynamicBody;
 
-        bd.position.set(this.getWidth(),this.getHeight());
+        bd.position.set(this.getX(),this.getY());
         body= world.createBody(bd);
 
         body.setFixedRotation(true);
         body.setLinearVelocity(direction);
-        body.setAngularVelocity(new Random().nextInt(120));
+        body.setAngularVelocity((float)Math.toRadians(new Random().nextInt(120)));
 
         if(new Random().nextInt(2)==0){
             body.setAngularVelocity(-body.getAngularVelocity());
@@ -47,9 +50,11 @@ public class Asteroid extends Actor {
 
         FixtureDef fd = new FixtureDef();
         CircleShape cs= new CircleShape();
-        cs.setRadius(diameter/2);
+        cs.setRadius((float) (diameter/2-diameter*0.1));
+        fd.filter.categoryBits = 0x0004;
+        fd.filter.maskBits= 0x0002 | 0x0004;
         fd.shape= cs;
-
+        fd.restitution=0;
         body.createFixture(fd);
 
 
@@ -57,16 +62,17 @@ public class Asteroid extends Actor {
 
     private void createSprite(){
 
-        sprites.add(new Sprite(new Texture("Asteroids/a1.png")));
-        sprites.add(new Sprite(new Texture("Asteroids/a2.png")));
-        sprites.add(new Sprite(new Texture("Asteroids/a3.png")));
-        sprites.add(new Sprite(new Texture("Asteroids/a4.png")));
+        sprites.add(new Sprite(new Texture("Asteroids/as1.png")));
+        sprites.add(new Sprite(new Texture("Asteroids/as2.png")));
+        sprites.add(new Sprite(new Texture("Asteroids/as3.png")));
+        sprites.add(new Sprite(new Texture("Asteroids/as4.png")));
+        sprites.add(new Sprite(new Texture("Asteroids/as7.png")));
 
         Random rd= new Random();
 
         this.sprite= sprites.get(rd.nextInt(sprites.size()));
 
-        this.diameter=(rd.nextInt(150-50)+50);
+        this.diameter=(rd.nextInt(300-50)+50);
 
         sprite.setBounds(this.getX(),this.getY(),diameter,diameter);
         sprites.clear();
@@ -74,11 +80,11 @@ public class Asteroid extends Actor {
 
     public void draw(Batch batch, float parentAlpha){
         this.setPosition(body.getPosition().x,body.getPosition().y);
-        this.setRotation(body.getAngle());
+        this.setRotation((float)Math.toDegrees(body.getAngle()));
 
         sprite.setOriginCenter();
 
-        sprite.setRotation(this.getRotation());
+        sprite.setRotation((float)Math.toDegrees(body.getAngle()));
         sprite.setPosition(body.getPosition().x-diameter/2,body.getPosition().y-diameter/2);
         sprite.draw(batch);
     }
