@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -19,7 +20,10 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.utils.viewport.ScalingViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import Classes.Actors.Asteroid;
 import Classes.Actors.BorderBar;
@@ -28,7 +32,7 @@ import Classes.Controller.Controls;
 import Classes.Actors.Player;
 import Classes.Others.AsteroidManager;
 
-public class MyGdxGame extends ApplicationAdapter {
+public class Umusdotg4 extends ApplicationAdapter {
     int score;
     int timer;
     BitmapFont font;
@@ -44,13 +48,12 @@ public class MyGdxGame extends ApplicationAdapter {
 
     private Camera camera;
     public Box2DDebugRenderer b2dr;
+    public final static float toMeter=1/6f;
 
-
-    //TODO MOVEMENTSPEED por culpa del viewport/cap de box2d,THRUSTERS,
+    //TODO CONTROL NO ESCALANTE, aumentar scale
     
         @Override
         public void create () {
-
          /*   b2dr= new Box2DDebugRenderer();
             camera=new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
             camera.position.x=0+Gdx.graphics.getWidth()/2;
@@ -58,15 +61,22 @@ public class MyGdxGame extends ApplicationAdapter {
          */
 
          //Definitions
-            stage=new Stage(new ScreenViewport());
+
+            StretchViewport screen= new StretchViewport(Gdx.graphics.getWidth()*toMeter,Gdx.graphics.getHeight()*toMeter);
+            stage=new Stage(screen);
+
+
             world= new World(new Vector2(0, 0), true);
+
             background = new TextureRegion(new Texture  ("Others/background.png"));
             p= new Player(world);
-            controls= new Controls(p);
+
             am= new AsteroidManager(world,stage,p);
             font= new BitmapFont(Gdx.files.internal("Others/console.fnt"),Gdx.files.internal("Others/console.png"),false);
             font.getData().setScale(8);
             gl= new GlyphLayout();
+
+            controls= new Controls(p);
             addActors();
             am.manageCollision();
             multiplexControls();
@@ -81,13 +91,13 @@ public class MyGdxGame extends ApplicationAdapter {
 	@Override
 	public void render () {
         //camera.update();
-        // stage.setDebugAll(true);
-        // b2dr.render(world, camera.combined);
-
+      // stage.setDebugAll(true);
+         //b2dr.render(world, camera.combined);
         scoreUp();
 
         s.begin();
 	    s.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
 	    gl.setText(font,""+score);
         font.setColor(26/255f, 126/255f, 9/255f, 0.3f);
         font.draw(s, ""+score, Gdx.graphics.getWidth()/2- gl.width / 2, Gdx.graphics.getHeight()/2+font.getCapHeight()/2);
@@ -118,10 +128,10 @@ public class MyGdxGame extends ApplicationAdapter {
     }
 
     public void setScreenCollision(){
-        stage.addActor(new BorderBar(0,0,Gdx.graphics.getWidth(),1,world));
-        stage.addActor(new BorderBar(0,0,1,Gdx.graphics.getHeight(),world));
-        stage.addActor(new BorderBar(Gdx.graphics.getWidth(),0,1,Gdx.graphics.getHeight(),world));
-        stage.addActor(new BorderBar(0,Gdx.graphics.getHeight(),Gdx.graphics.getWidth(),1,world));
+        stage.addActor(new BorderBar(0,0,(int)(Gdx.graphics.getWidth()*Umusdotg4.toMeter),1,world));
+        stage.addActor(new BorderBar(0,0,1,(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter),world));
+        stage.addActor(new BorderBar((int)(Gdx.graphics.getWidth()*Umusdotg4.toMeter),0,1,(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter),world));
+        stage.addActor(new BorderBar(0,(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter),(int)(Gdx.graphics.getWidth()*Umusdotg4.toMeter),1,world));
 
     }
     public void addActors(){

@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.mygdx.game.Umusdotg4;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -21,7 +22,7 @@ public class AsteroidManager {
     public ArrayList<Asteroid> asteroids= new ArrayList<Asteroid>();
     Random rd= new Random();
     public Group asteroidActors= new Group();
-    public int generationRate=90;
+    public int generationRate=70;
     public int maxSpeed;
     public int minSpeed;
     public int angle;
@@ -42,7 +43,7 @@ public class AsteroidManager {
         this.s=s;
         this.p=p;
         maxSpeed=150;
-        minSpeed=20;
+        minSpeed=50;
         angle=315;
 
     }
@@ -56,9 +57,9 @@ public class AsteroidManager {
         vector = new Vector2(x*speed,y*speed);
 
 
-         posValue=rd.nextInt(Gdx.graphics.getHeight()*2);
-         posX= (int)-(Gdx.graphics.getWidth()*0.5)+posValue;
-         posY=Gdx.graphics.getHeight()/2 + posValue;
+         posValue=rd.nextInt((int)((Gdx.graphics.getHeight()*1.5f*Umusdotg4.toMeter)));
+         posX= (int)-(Gdx.graphics.getWidth()*0.5*Umusdotg4.toMeter)+posValue;
+         posY=(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter/2 + posValue);
 
         if(rd.nextInt(generationRate)==1){
             asteroids.add(new Asteroid(posX,posY, vector,w));
@@ -74,7 +75,7 @@ public class AsteroidManager {
         for(Asteroid a: asteroids){
             if(a.getY()<0-a.diameter){
                 a.remove();
-            }else if(a.getX()>Gdx.graphics.getWidth()+a.diameter){
+            }else if(a.getX()>Gdx.graphics.getWidth()*Umusdotg4.toMeter+a.diameter){
                 a.remove();
             }
         }

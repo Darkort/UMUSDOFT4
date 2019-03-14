@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.Umusdotg4;
 
 public class Button extends Actor {
 
@@ -28,7 +29,7 @@ public class Button extends Actor {
             x= (float)0.72;
             sprite.flip(true,false);
         }
-        sprite.setBounds((float) (Gdx.graphics.getWidth() * x), (float) (Gdx.graphics.getHeight() * 0.03), (float) (Gdx.graphics.getWidth() * 0.25), (float) (Gdx.graphics.getHeight() * 0.93));
+        sprite.setBounds((Gdx.graphics.getWidth()*Umusdotg4.toMeter * x), (float) (Gdx.graphics.getHeight()*Umusdotg4.toMeter * 0.03), (float) (Gdx.graphics.getWidth()*Umusdotg4.toMeter * 0.25), (float) (Gdx.graphics.getHeight()*Umusdotg4.toMeter * 0.93));
 
     }
     public void draw(Batch batch, float parentAlpha){
@@ -38,10 +39,6 @@ public class Button extends Actor {
 
     public boolean isLeft() {
         return isLeft;
-    }
-
-    public void setLeft(boolean left) {
-        isLeft = left;
     }
 
     public Sprite getSprite() {

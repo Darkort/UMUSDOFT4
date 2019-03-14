@@ -13,6 +13,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.mygdx.game.Umusdotg4;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -74,7 +75,7 @@ public class Asteroid extends Actor {
 
         this.sprite= sprites.get(rd.nextInt(sprites.size()));
 
-        this.diameter=(rd.nextInt(300-50)+50);
+        this.diameter=(int)(rd.nextInt(((300-100)+100))*Umusdotg4.toMeter);
 
         sprite.setBounds(this.getX(),this.getY(),diameter,diameter);
         sprites.clear();

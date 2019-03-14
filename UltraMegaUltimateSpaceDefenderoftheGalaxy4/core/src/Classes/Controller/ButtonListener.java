@@ -4,10 +4,7 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-
-
-
-
+import com.mygdx.game.Umusdotg4;
 
 
 public class ButtonListener implements InputProcessor {
@@ -39,7 +36,7 @@ public class ButtonListener implements InputProcessor {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        if(but.getSprite().getBoundingRectangle().contains(screenX,screenY)) {
+        if(but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)) {
 
             if(but.isLeft()){
                 Controls.leftPressed=true;
@@ -53,10 +50,10 @@ public class ButtonListener implements InputProcessor {
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        if(but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX,screenY)){
+        if(but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)){
             Controls.leftPressed=false;
             but.getSprite().setAlpha(0.1f);
-        }else if(!but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX,screenY)){
+        }else if(!but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)){
             Controls.rightPressed=false;
             but.getSprite().setAlpha(0.1f);
         }

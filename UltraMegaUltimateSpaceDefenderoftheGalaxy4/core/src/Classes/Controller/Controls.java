@@ -37,11 +37,11 @@ public class Controls {
 
 
         if(rightPressed && leftPressed){
-            player.impulsate(150);
+            player.impulsate(50);
         }else if(rightPressed){
-            player.rotate(3);
+            player.rotate(4);
         }else if(leftPressed){
-            player.rotate(-3);
+            player.rotate(-4);
         }
 
     }
