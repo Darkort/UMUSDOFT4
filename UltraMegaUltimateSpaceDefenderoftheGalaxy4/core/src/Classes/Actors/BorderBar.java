@@ -20,7 +20,7 @@ public class BorderBar extends Actor {
 
     public BorderBar(int x, int y,int width, int height, World w){
         this.setX(x);
-        this.getY(y);
+        this.setY(y);
         this.setWidth(width);
         this.setHeight(height);
         this.w=w;

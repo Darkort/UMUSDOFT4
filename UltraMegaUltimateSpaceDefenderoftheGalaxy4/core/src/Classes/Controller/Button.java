@@ -33,6 +33,7 @@ public class Button extends Actor {
     }
     public void draw(Batch batch, float parentAlpha){
         sprite.draw(batch);
+
     }
 
     public boolean isLeft() {

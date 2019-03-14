@@ -19,7 +19,8 @@ import java.util.Random;
 
 public class Asteroid extends Actor {
 
-    private static ArrayList<Sprite> sprites= new ArrayList<Sprite>();
+    private final static ArrayList<Sprite> sprites= new ArrayList<Sprite>();
+    Random rd;
     private Sprite sprite;
     World world;
     BodyDef bd;
@@ -30,6 +31,7 @@ public class Asteroid extends Actor {
         this.setX(x);
         this.setY(y);
 
+        rd= new Random();
         createSprite();
 
         this.world= w;
@@ -50,7 +52,7 @@ public class Asteroid extends Actor {
 
         FixtureDef fd = new FixtureDef();
         CircleShape cs= new CircleShape();
-        cs.setRadius((float) (diameter/2-diameter*0.1));
+        cs.setRadius((float) (diameter/2-diameter*0.05));
         fd.filter.categoryBits = 0x0004;
         fd.filter.maskBits= 0x0002 | 0x0004;
         fd.shape= cs;
@@ -68,7 +70,7 @@ public class Asteroid extends Actor {
         sprites.add(new Sprite(new Texture("Asteroids/as4.png")));
         sprites.add(new Sprite(new Texture("Asteroids/as7.png")));
 
-        Random rd= new Random();
+
 
         this.sprite= sprites.get(rd.nextInt(sprites.size()));
 

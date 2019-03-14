@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
 import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 
 import java.util.ArrayList;
@@ -18,6 +19,8 @@ import Classes.Actors.Player;
 
 public class AsteroidManager {
     public ArrayList<Asteroid> asteroids= new ArrayList<Asteroid>();
+    Random rd= new Random();
+    public Group asteroidActors= new Group();
     public int generationRate=90;
     public int maxSpeed;
     public int minSpeed;
@@ -27,6 +30,12 @@ public class AsteroidManager {
     public Stage s;
     public Player p;
 
+     float x;
+     float y;
+     int speed;
+     int posX;
+     int posY;
+     int posValue;
 
     public AsteroidManager(World w, Stage s, Player p){
         this.w=w;
@@ -39,22 +48,23 @@ public class AsteroidManager {
     }
 
     public void generateAsteroidField(){
-        Random rd= new Random();
-        float x= (float)Math.cos(Math.toRadians(angle));
-        float y= (float)Math.sin(Math.toRadians(angle));
-        int speed= rd.nextInt(maxSpeed);
+
+         x= (float)Math.cos(Math.toRadians(angle));
+         y= (float)Math.sin(Math.toRadians(angle));
+         speed= rd.nextInt(maxSpeed);
 
         vector = new Vector2(x*speed,y*speed);
 
 
-        int posValue=rd.nextInt(Gdx.graphics.getHeight()*2);
-        int posX= (int)-(Gdx.graphics.getWidth()*0.5)+posValue;
-        int posY=Gdx.graphics.getHeight()/2 + posValue;
+         posValue=rd.nextInt(Gdx.graphics.getHeight()*2);
+         posX= (int)-(Gdx.graphics.getWidth()*0.5)+posValue;
+         posY=Gdx.graphics.getHeight()/2 + posValue;
 
         if(rd.nextInt(generationRate)==1){
             asteroids.add(new Asteroid(posX,posY, vector,w));
-            s.addActor(asteroids.get(asteroids.size()-1));
+            asteroidActors.addActor(asteroids.get(asteroids.size()-1));
         }
+
 
         deleteErrants();
 
@@ -62,9 +72,9 @@ public class AsteroidManager {
 
     public void deleteErrants(){
         for(Asteroid a: asteroids){
-            if(a.getY()<0-Gdx.graphics.getWidth()/4){
+            if(a.getY()<0-a.diameter){
                 a.remove();
-            }else if(a.getX()>Gdx.graphics.getWidth()+Gdx.graphics.getWidth()/4){
+            }else if(a.getX()>Gdx.graphics.getWidth()+a.diameter){
                 a.remove();
             }
         }
