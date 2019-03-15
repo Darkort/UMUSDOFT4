@@ -48,7 +48,7 @@ public class Umusdotg4 extends ApplicationAdapter {
 
     private Camera camera;
     public Box2DDebugRenderer b2dr;
-    public final static float toMeter=1/6f;
+    public final static float toMeter=1/10f;
 
     //TODO CONTROL NO ESCALANTE, aumentar scale
     
@@ -64,14 +64,14 @@ public class Umusdotg4 extends ApplicationAdapter {
 
             StretchViewport screen= new StretchViewport(Gdx.graphics.getWidth()*toMeter,Gdx.graphics.getHeight()*toMeter);
             stage=new Stage(screen);
-
+            s= new SpriteBatch();
 
             world= new World(new Vector2(0, 0), true);
 
             background = new TextureRegion(new Texture  ("Others/background.png"));
             p= new Player(world);
 
-            am= new AsteroidManager(world,stage,p);
+            am= new AsteroidManager(world,stage,p,s);
             font= new BitmapFont(Gdx.files.internal("Others/console.fnt"),Gdx.files.internal("Others/console.png"),false);
             font.getData().setScale(8);
             gl= new GlyphLayout();
@@ -81,7 +81,7 @@ public class Umusdotg4 extends ApplicationAdapter {
             am.manageCollision();
             multiplexControls();
             setScreenCollision();
-            s= new SpriteBatch();
+
 
             score=0;
             timer=0;
@@ -97,14 +97,19 @@ public class Umusdotg4 extends ApplicationAdapter {
 
         s.begin();
 	    s.draw(background,0,0,Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
-
 	    gl.setText(font,""+score);
         font.setColor(26/255f, 126/255f, 9/255f, 0.3f);
         font.draw(s, ""+score, Gdx.graphics.getWidth()/2- gl.width / 2, Gdx.graphics.getHeight()/2+font.getCapHeight()/2);
+       // am.particleColisionDrawer(s);
         s.end();
 
         am.generateAsteroidField();
-        controls.act();
+        controls.act(s);
+
+        /*if(!(Controls.rightPressed&&Controls.leftPressed)){
+            p.pf.getEmitters().first().reset();
+        }*/
+
         stage.act();
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);
         stage.draw();
@@ -120,7 +125,7 @@ public class Umusdotg4 extends ApplicationAdapter {
 
 	public void scoreUp(){
             if(timer==30){
-                score+=3;
+                score+=7;
                 timer=0;
             }else{
                 timer++;

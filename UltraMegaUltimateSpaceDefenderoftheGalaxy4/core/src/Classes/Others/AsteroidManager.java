@@ -1,6 +1,8 @@
 package Classes.Others;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
@@ -30,6 +32,7 @@ public class AsteroidManager {
     public World w;
     public Stage s;
     public Player p;
+    public SpriteBatch sb;
 
      float x;
      float y;
@@ -38,13 +41,15 @@ public class AsteroidManager {
      int posY;
      int posValue;
 
-    public AsteroidManager(World w, Stage s, Player p){
+
+    public AsteroidManager(World w, Stage s, Player p,SpriteBatch sb){
         this.w=w;
         this.s=s;
         this.p=p;
-        maxSpeed=150;
-        minSpeed=50;
+        maxSpeed=80;
+        minSpeed=20;
         angle=315;
+        this.sb=sb;
 
     }
 
@@ -52,7 +57,7 @@ public class AsteroidManager {
 
          x= (float)Math.cos(Math.toRadians(angle));
          y= (float)Math.sin(Math.toRadians(angle));
-         speed= rd.nextInt(maxSpeed);
+         speed= rd.nextInt((maxSpeed-minSpeed)+minSpeed);
 
         vector = new Vector2(x*speed,y*speed);
 
@@ -86,9 +91,18 @@ public class AsteroidManager {
             public void beginContact(Contact contact) {
                 if((contact.getFixtureA()==p.getBody().getFixtureList().first()) && (contact.getFixtureB().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
                     p.setVisible(false);
+
                 }else if((contact.getFixtureB()==p.getBody().getFixtureList().first()) && (contact.getFixtureA().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
                     p.setVisible(false);
+
                 }
+
+
+
+
+
+
+
             }
 
             @Override
@@ -106,6 +120,19 @@ public class AsteroidManager {
 
             }
         });
+
+    }
+
+    public void particleColisionDrawer(SpriteBatch sb){
+
+            ParticleEffect colision = new ParticleEffect();
+            colision.load(Gdx.files.internal("Others/collision.p"), Gdx.files.internal("Others"));
+            //colision.setPosition(contact.getWorldManifold().getPoints()[0].x,contact.getWorldManifold().getPoints()[0].y);
+            colision.setPosition(0,0);
+            colision.scaleEffect(3);
+            colision.draw(sb,Gdx.graphics.getDeltaTime());
+
+
 
     }
 }

@@ -19,7 +19,7 @@ public class Button extends Actor {
         //if isLeft=1, its the left side, if isLeft=0, its the right side
 
         sprite = new Sprite(new Texture(Gdx.files.internal("Buttons/button.png")));
-        sprite.setAlpha(0.1f);
+        sprite.setAlpha(0.08f);
 
         this.isLeft=isLeft;
         if (isLeft == true) {

@@ -3,7 +3,9 @@ package Classes.Actors;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.ParticleEffect;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,6 +26,7 @@ public class Player extends Actor {
     World world;
     BodyDef bd;
     Body body;
+    public ParticleEffect pf;
 
     public Player(World w){
         this.world= w;
@@ -61,6 +64,11 @@ public class Player extends Actor {
 
         body.createFixture(fd);
 
+        pf= new ParticleEffect();
+        pf.load(Gdx.files.internal("Others/thruster.p"),Gdx.files.internal("Others"));
+        pf.scaleEffect(0.5f,0.5f,1);
+        pf.setPosition((this.getX())/Umusdotg4.toMeter,this.getY()/Umusdotg4.toMeter);
+
     }
 
     public void draw(Batch batch, float parentAlpha){
@@ -72,6 +80,7 @@ public class Player extends Actor {
 
         sprite.setRotation((float)Math.toDegrees(body.getAngle()));
         sprite.setPosition(body.getPosition().x-sprite.getWidth()/2,body.getPosition().y-sprite.getHeight()/2);
+
         sprite.draw(batch);
     }
 
@@ -83,16 +92,18 @@ public class Player extends Actor {
         body.setTransform(body.getPosition(),body.getAngle()-(float)( Math.toRadians(degrees)));
     }
 
-    public void impulsate(int power){
+    public void impulsate(int power, SpriteBatch s){
+
+        this.pf.setPosition(this.getX()/Umusdotg4.toMeter,this.getY()/Umusdotg4.toMeter);
+        this.pf.getEmitters().first().getAngle().setHigh(this.getRotation()-180);
+        this.pf.getEmitters().first().getAngle().setLow(this.getRotation()-180);
+        s.begin();
+        this.pf.draw(s,Gdx.graphics.getDeltaTime());
+        s.end();
+
         float x = (float) Math.cos(body.getAngle());
         float y = (float) Math.sin(body.getAngle());
         body.applyForceToCenter( new Vector2(x*power,y*power), true);
     }
-
-
-
-
-
-
 
 }

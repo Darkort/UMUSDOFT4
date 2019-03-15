@@ -43,7 +43,7 @@ public class ButtonListener implements InputProcessor {
             }else{
                 Controls.rightPressed=true;
             }
-            but.getSprite().setAlpha(0.30f);
+            but.getSprite().setAlpha(0.20f);
         }
         return false;
     }
@@ -52,10 +52,10 @@ public class ButtonListener implements InputProcessor {
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)){
             Controls.leftPressed=false;
-            but.getSprite().setAlpha(0.1f);
+            but.getSprite().setAlpha(0.08f);
         }else if(!but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)){
             Controls.rightPressed=false;
-            but.getSprite().setAlpha(0.1f);
+            but.getSprite().setAlpha(0.08f);
         }
 
         return false;
