@@ -3,31 +3,23 @@ package com.mygdx.game;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Matrix4;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.Scaling;
-import com.badlogic.gdx.utils.viewport.ScalingViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
-import Classes.Actors.Asteroid;
 import Classes.Actors.BorderBar;
-import Classes.Controller.Button;
 import Classes.Controller.Controls;
 import Classes.Actors.Player;
 import Classes.Others.AsteroidManager;
@@ -37,7 +29,6 @@ public class Umusdotg4 extends ApplicationAdapter {
     int timer;
     BitmapFont font;
     GlyphLayout gl;
-
 	Stage stage;
 	Player p;
     Controls controls;
@@ -48,10 +39,10 @@ public class Umusdotg4 extends ApplicationAdapter {
 
     private Camera camera;
     public Box2DDebugRenderer b2dr;
-    public final static float toMeter=1/10f;
+    public final static float toMeter=1/12f;
 
-    //TODO CONTROL NO ESCALANTE, aumentar scale
-    
+
+
         @Override
         public void create () {
          /*   b2dr= new Box2DDebugRenderer();
@@ -61,7 +52,11 @@ public class Umusdotg4 extends ApplicationAdapter {
          */
 
          //Definitions
-
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
             StretchViewport screen= new StretchViewport(Gdx.graphics.getWidth()*toMeter,Gdx.graphics.getHeight()*toMeter);
             stage=new Stage(screen);
             s= new SpriteBatch();
@@ -106,9 +101,9 @@ public class Umusdotg4 extends ApplicationAdapter {
         am.generateAsteroidField();
         controls.act(s);
 
-        /*if(!(Controls.rightPressed&&Controls.leftPressed)){
+        if(!(Controls.rightPressed&&Controls.leftPressed)){
             p.pf.getEmitters().first().reset();
-        }*/
+        }
 
         stage.act();
         world.step(Gdx.graphics.getDeltaTime(), 6, 2);

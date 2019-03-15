@@ -92,9 +92,11 @@ public class AsteroidManager {
                 if((contact.getFixtureA()==p.getBody().getFixtureList().first()) && (contact.getFixtureB().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
                     p.setVisible(false);
 
+
+                    Gdx.app.exit();
                 }else if((contact.getFixtureB()==p.getBody().getFixtureList().first()) && (contact.getFixtureA().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
                     p.setVisible(false);
-
+                    Gdx.app.exit();
                 }
 
 

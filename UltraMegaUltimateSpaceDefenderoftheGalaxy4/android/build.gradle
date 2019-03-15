@@ -18,7 +18,7 @@ android {
     }
     defaultConfig {
         applicationId "com.mygdx.game"
-        minSdkVersion 9
+        minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -123,7 +123,7 @@ eclipse {
 idea {
     module {
         sourceDirs += file("src");
-        scopes = [ COMPILE: [plus:[project.configurations.compile]]]
+        scopes = [ COMPILE : [plus:[project.configurations.compile]]]
 
         iml {
             withXml {
@@ -133,7 +133,7 @@ idea {
                 builder.component(name: "FacetManager") {
                     facet(type: "android", name: "Android") {
                         configuration {
-                            option(name: "UPDATE_PROPERTY_FILES", value:"true")
+                            option(name: "UPDATE_PROPERTY_FILES" , value:"true")
                         }
                     }
                 }
@@ -142,3 +142,6 @@ idea {
     }
 }
 
+dependencies {
+  implementation 'com.android.support.constraint:constraint-layout:+'
+}
