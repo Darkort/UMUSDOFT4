@@ -22,7 +22,7 @@ public class AsteroidManager {
     public ArrayList<Asteroid> asteroids= new ArrayList<Asteroid>();
     Random rd= new Random();
     public Group asteroidActors= new Group();
-    public int generationRate=70;
+    public int generationRate=40;
     public int maxSpeed;
     public int minSpeed;
     public int angle;
@@ -57,9 +57,9 @@ public class AsteroidManager {
         vector = new Vector2(x*speed,y*speed);
 
 
-         posValue=rd.nextInt((int)((Gdx.graphics.getHeight()*1.5f*Umusdotg4.toMeter)));
+         posValue=rd.nextInt((int)((Gdx.graphics.getWidth()*Umusdotg4.toMeter)));
          posX= (int)-(Gdx.graphics.getWidth()*0.5*Umusdotg4.toMeter)+posValue;
-         posY=(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter/2 + posValue);
+         posY=(int)(Gdx.graphics.getHeight()*Umusdotg4.toMeter/4 + posValue);
 
         if(rd.nextInt(generationRate)==1){
             asteroids.add(new Asteroid(posX,posY, vector,w));

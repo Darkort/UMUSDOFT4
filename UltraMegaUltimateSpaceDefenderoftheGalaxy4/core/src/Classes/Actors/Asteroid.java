@@ -75,7 +75,11 @@ public class Asteroid extends Actor {
 
         this.sprite= sprites.get(rd.nextInt(sprites.size()));
 
-        this.diameter=(int)(rd.nextInt(((300-100)+100))*Umusdotg4.toMeter);
+        this.diameter=(int)(rd.nextInt((300-100)+100)*Umusdotg4.toMeter);
+
+        if (diameter<50*Umusdotg4.toMeter){
+            this.diameter=30;
+        }
 
         sprite.setBounds(this.getX(),this.getY(),diameter,diameter);
         sprites.clear();
