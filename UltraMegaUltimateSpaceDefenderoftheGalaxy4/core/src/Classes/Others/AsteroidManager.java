@@ -24,7 +24,7 @@ public class AsteroidManager {
     public ArrayList<Asteroid> asteroids= new ArrayList<Asteroid>();
     Random rd= new Random();
     public Group asteroidActors= new Group();
-    public int generationRate=40;
+    public int generationRate=30;
     public int maxSpeed;
     public int minSpeed;
     public int angle;
@@ -46,7 +46,7 @@ public class AsteroidManager {
         this.w=w;
         this.s=s;
         this.p=p;
-        maxSpeed=80;
+        maxSpeed=60;
         minSpeed=20;
         angle=315;
         this.sb=sb;
@@ -85,45 +85,7 @@ public class AsteroidManager {
             }
         }
     }
-    public void manageCollision(){
-        w.setContactListener(new ContactListener() {
-            @Override
-            public void beginContact(Contact contact) {
-                if((contact.getFixtureA()==p.getBody().getFixtureList().first()) && (contact.getFixtureB().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
-                    p.setVisible(false);
 
-
-                    Gdx.app.exit();
-                }else if((contact.getFixtureB()==p.getBody().getFixtureList().first()) && (contact.getFixtureA().getBody().getType()!=BodyDef.BodyType.StaticBody)) {
-                    p.setVisible(false);
-                    Gdx.app.exit();
-                }
-
-
-
-
-
-
-
-            }
-
-            @Override
-            public void endContact(Contact contact) {
-
-            }
-
-            @Override
-            public void preSolve(Contact contact, Manifold oldManifold) {
-
-            }
-
-            @Override
-            public void postSolve(Contact contact, ContactImpulse impulse) {
-
-            }
-        });
-
-    }
 
     public void particleColisionDrawer(SpriteBatch sb){
 

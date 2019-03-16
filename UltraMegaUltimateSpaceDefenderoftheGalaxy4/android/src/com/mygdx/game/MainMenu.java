@@ -1,22 +1,33 @@
 package com.mygdx.game;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
+
+import DataBase.AndroidDataBase;
 
 
 public class MainMenu extends Activity {
+    AndroidDataBase dba;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
+        dba= new AndroidDataBase(this);
+
+        TextView scoreText= findViewById(R.id.HighScoreText);
+        scoreText.setText(""+dba.getHigherScore());
 
     }
     @Override
@@ -24,7 +35,8 @@ public class MainMenu extends Activity {
         super.onResume();
         ImageButton im= findViewById(R.id.startButton);
         im.setImageResource(R.drawable.empezar);
-
+        TextView scoreText= findViewById(R.id.HighScoreText);
+        scoreText.setText(""+dba.getHigherScore().getScore());
     }
 
 
@@ -55,5 +67,6 @@ public class MainMenu extends Activity {
                 .setNegativeButton("¡Jamas!", null)
                 .show();
          }
+
 
 }

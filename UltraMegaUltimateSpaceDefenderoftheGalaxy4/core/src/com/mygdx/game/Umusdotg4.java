@@ -12,7 +12,12 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.ContactImpulse;
+import com.badlogic.gdx.physics.box2d.ContactListener;
+import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -22,6 +27,7 @@ import com.badlogic.gdx.utils.viewport.StretchViewport;
 import Classes.Actors.BorderBar;
 import Classes.Controller.Controls;
 import Classes.Actors.Player;
+import Classes.DataBase.DataBase;
 import Classes.Others.AsteroidManager;
 
 public class Umusdotg4 extends ApplicationAdapter {
@@ -36,12 +42,15 @@ public class Umusdotg4 extends ApplicationAdapter {
     TextureRegion background;
     AsteroidManager am;
     SpriteBatch s;
+    DataBase db;
 
     private Camera camera;
     public Box2DDebugRenderer b2dr;
     public final static float toMeter=1/12f;
 
-
+        public Umusdotg4(DataBase dataBase){
+            this.db=dataBase;
+        }
 
         @Override
         public void create () {
@@ -73,7 +82,7 @@ public class Umusdotg4 extends ApplicationAdapter {
 
             controls= new Controls(p);
             addActors();
-            am.manageCollision();
+            manageCollision();
             multiplexControls();
             setScreenCollision();
 
@@ -85,9 +94,7 @@ public class Umusdotg4 extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-        //camera.update();
-      // stage.setDebugAll(true);
-         //b2dr.render(world, camera.combined);
+
         scoreUp();
 
         s.begin();
@@ -112,7 +119,10 @@ public class Umusdotg4 extends ApplicationAdapter {
 	}
 	
 	@Override
-	public void dispose () {
+	public void dispose (){
+
+        font.dispose();
+        s.dispose();
 		stage.dispose();
 		world.dispose();
 	}
@@ -147,5 +157,41 @@ public class Umusdotg4 extends ApplicationAdapter {
         multiplex.addProcessor(controls.getLeft());
         multiplex.addProcessor(controls.getRight());
         Gdx.input.setInputProcessor(multiplex);
+    }
+
+
+    public void manageCollision(){
+        world.setContactListener(new ContactListener() {
+            @Override
+            public void beginContact(Contact contact) {
+                if(((contact.getFixtureA()==p.getBody().getFixtureList().first()) && (contact.getFixtureB().getBody().getType()!=BodyDef.BodyType.StaticBody))
+                || ((contact.getFixtureB()==p.getBody().getFixtureList().first()) && (contact.getFixtureA().getBody().getType()!=BodyDef.BodyType.StaticBody))) {
+
+                    if(score>db.getHigherScore().getScore()){
+                        db.savenewHighScore(score);
+                    }
+
+                  //  p.setVisible(false);
+                    Gdx.app.exit();
+                }
+
+            }
+
+            @Override
+            public void endContact(Contact contact) {
+
+            }
+
+            @Override
+            public void preSolve(Contact contact, Manifold oldManifold) {
+
+            }
+
+            @Override
+            public void postSolve(Contact contact, ContactImpulse impulse) {
+
+            }
+        });
+
     }
 }
