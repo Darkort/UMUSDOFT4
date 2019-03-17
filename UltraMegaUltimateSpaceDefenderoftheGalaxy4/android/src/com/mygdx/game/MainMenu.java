@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -24,7 +25,7 @@ public class MainMenu extends Activity {
     AndroidDataBase dba;
     boolean serviceLaunched;
     Intent service;
-    Music music;
+    MediaPlayer music;
 
     /**
      * Sets Database connection, the annoying service and the HigherScore on the HighScore TextView
@@ -37,22 +38,21 @@ public class MainMenu extends Activity {
         dba= new AndroidDataBase(this);
 
         service=new Intent(this,SoFuckingAnnoyingService.class);
-        music= Gdx.audio.newMusic(Gdx.files.internal("data/mymusic.mp3"));
+        music= MediaPlayer.create(getApplicationContext(),R.raw.backmenu);
         music.setLooping(true);
-        music.setVolume(0.8f);
-        music.play();
+        music.start();
         TextView scoreText= findViewById(R.id.HighScoreText);
         scoreText.setText(""+dba.getHigherScore());
 
     }
 
     /**
-     * Updates ImageButton and highScore upon resume
+     * Updates ImageButton,music and highScore upon resume
      */
     @Override
     public void onResume(){
         super.onResume();
-        music.play();
+        music.start();
         ImageButton im= findViewById(R.id.startButton);
         im.setImageResource(R.drawable.empezar);
         TextView scoreText= findViewById(R.id.HighScoreText);

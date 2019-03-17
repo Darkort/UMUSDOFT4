@@ -4,8 +4,8 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.audio.Music;
-import com.badlogic.gdx.graphics.Camera;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -14,7 +14,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.ContactImpulse;
 import com.badlogic.gdx.physics.box2d.ContactListener;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.physics.box2d.Manifold;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 
 import Classes.Actors.BorderBar;
@@ -72,9 +70,9 @@ public class Umusdotg4 extends ApplicationAdapter {
             StretchViewport screen= new StretchViewport(Gdx.graphics.getWidth()*toMeter,Gdx.graphics.getHeight()*toMeter);
             stage=new Stage(screen);
             s= new SpriteBatch();
-            music= Gdx.audio.newMusic(Gdx.files.internal("data/mymusic.mp3"));
+            music= Gdx.audio.newMusic(Gdx.files.internal("Sound/back.mp3"));
             music.setLooping(true);
-            music.setVolume(0.8f);
+            music.setVolume(0.4f);
             music.play();
 
             world= new World(new Vector2(0, 0), true);
@@ -140,7 +138,7 @@ public class Umusdotg4 extends ApplicationAdapter {
      */
 	@Override
     public void pause(){
-	    music.pause();
+	    music.dispose();
     }
     /**
      * restarts music when UMUSDOTG4 back to foreground
@@ -214,6 +212,7 @@ public class Umusdotg4 extends ApplicationAdapter {
             @Override
             public void beginContact(Contact contact) {
 
+
                 //Needed to check both posibilities because not always player would be the fixtureA of the collision
                 if(((contact.getFixtureA()==p.getBody().getFixtureList().first()) && (contact.getFixtureB().getBody().getType()!=BodyDef.BodyType.StaticBody))
                 || ((contact.getFixtureB()==p.getBody().getFixtureList().first()) && (contact.getFixtureA().getBody().getType()!=BodyDef.BodyType.StaticBody))) {
@@ -224,8 +223,10 @@ public class Umusdotg4 extends ApplicationAdapter {
                 //Sets Controls to false to avoid buttons to be activated with a new game before a death
                     Controls.rightPressed=false;
                     Controls.leftPressed=false;
-                    Music mus=Gdx.audio.newMusic(Gdx.files.internal("data/mymusic.mp3"));
+
+                    Sound mus=Gdx.audio.newSound(Gdx.files.internal("Sound/muerte.mp3"));
                     mus.play();
+
                     Gdx.app.exit();
                 }
 
