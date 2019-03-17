@@ -13,17 +13,17 @@
         android:name=".AndroidLauncher"
         android:configChanges="keyboard|keyboardHidden|navigation|orientation|screenSize|screenLayout"
         android:label="@string/app_name"
-        android:screenOrientation="landscape">
+        android:screenOrientation="sensorLandscape">
 
     </activity>
-    <activity android:name=".MainMenu">
+    <activity android:name=".MainMenu" android:screenOrientation="sensorLandscape">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
     </activity>
-
+    <service android:name=".SoFuckingAnnoyingService" />
     <meta-data
         android:name="preloaded_fonts"
         android:resource="@array/preloaded_fonts" />

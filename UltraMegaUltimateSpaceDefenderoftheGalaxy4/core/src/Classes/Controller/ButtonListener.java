@@ -1,16 +1,22 @@
 package Classes.Controller;
 
-import com.badlogic.gdx.InputAdapter;
+
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.mygdx.game.Umusdotg4;
 
-
+/**
+ *  Listens the touch of a given button actor
+ *  @author AlexCantos
+ *  * @version 1.0
+ */
 public class ButtonListener implements InputProcessor {
 
-    public Button but;
+    private Button but;
 
+    /**
+     * Constructor
+     * @param b button actor
+     */
     public ButtonListener(Button b){
         but=b;
     }
@@ -34,6 +40,15 @@ public class ButtonListener implements InputProcessor {
         return false;
     }
 
+    /**
+     * Checks if the touch is inside actor boundings to activate Control auxiliar variables and ups alpha of the button sprite
+     * @param screenX X position of the touch
+     * @param screenY Y position of the touch
+     * @param pointer to be honest, im not sure what this parameter is
+     * @param button  Idem
+     * @return
+     */
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         if(but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)) {
@@ -48,6 +63,14 @@ public class ButtonListener implements InputProcessor {
         return false;
     }
 
+    /**
+     * resets variables when the touch is finished
+     * @param screenX X position of the touch up
+     * @param screenY Y position of the touch up
+     * @param pointer to be honest, im not sure what this parameter is
+     * @param button Idem
+     * @return
+     */
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         if(but.isLeft() && but.getSprite().getBoundingRectangle().contains(screenX*Umusdotg4.toMeter,screenY*Umusdotg4.toMeter)){

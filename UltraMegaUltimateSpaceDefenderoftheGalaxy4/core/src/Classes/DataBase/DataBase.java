@@ -1,5 +1,11 @@
 package Classes.DataBase;
 
+
+/**
+ * Main Database Class that manages access and creaton of the local database
+ * @author AlexCantos
+ *  *  * @version 1.0
+ */
 public abstract class DataBase {
     private static  int databaseVersion;
     private static  String databaseName;

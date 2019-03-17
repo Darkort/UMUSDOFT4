@@ -1,5 +1,10 @@
 package Classes.DataBase;
 
+/**
+ * Contains an score integer, auxiliar class of SQLite Database
+ * @author AlexCantos
+ * @version 1.0
+ */
 public class Score {
     int score;
 
